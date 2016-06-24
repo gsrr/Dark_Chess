@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 import chess
 import random
+import traceback
 
 EVENTMAP = {
 	QUIT : "equit",
@@ -63,6 +64,8 @@ class ChessBoard:
 		return midchess
 
 	def invalidMove(self, x2, y2):
+		x1 = self.selectChessPos[0]
+		y1 = self.selectChessPos[1]
 		if (abs(x2 - x1) + abs(y2 - y1)) > 1:
 			return True
 		
@@ -93,7 +96,6 @@ class ChessBoard:
 				return True
 		else:
 			if (abs(x2 - x1) + abs(y2 - y1)) > 1:
-				print "invalid"
 				return True
 	
 	def changeRole(self):
@@ -177,27 +179,21 @@ def createScreen(width, height, caption):
 		return screen
 	
 def equit(paras):
-	print "equit"
 	sys.exit(0)
 
 def eactiveevent(paras):
-	print "eactiveevent"
 	pass
 
 def ekeydown(paras):
-	print "ekeydown"
 	pass
 
 def ekeyup(paras):
-	print "ekeyup"
 	pass
 
 def emousemotion(paras):
 	x,y = pygame.mouse.get_pos()
-	print x,y
 
 def emousebtnup(paras):
-	print "emousebtnup"
 	x,y = pygame.mouse.get_pos()
 	board = paras['board']
 	i = int(((y + 1) - BOARDY) / board.height ) #row
@@ -207,9 +203,7 @@ def emousebtnup(paras):
 	board.changeState(i, j)
 
 def emousebtndown(paras):
-	print "emousebtndown"
 	x,y = pygame.mouse.get_pos()
-	print x,y
 
 
 def refresh(chessBoard, paras):
@@ -227,17 +221,21 @@ def main():
 	chess_board = ChessBoard(BOARDX, BOARDY)
 	chess_board.init()
 	while True:
-		paras = {
-			'screen' : 	screen,
-			'bg' : imgBg,
-			'board' : chess_board,
-		}
-		for event in pygame.event.get():
-			print event.type
-			func = getattr(sys.modules[__name__], EVENTMAP[event.type])
-			func(paras)
-		
-		refresh(chess_board, paras)
+		try:
+			paras = {
+				'screen' : 	screen,
+				'bg' : imgBg,
+				'board' : chess_board,
+			}
+			for event in pygame.event.get():
+				func = getattr(sys.modules[__name__], EVENTMAP[event.type])
+				func(paras)
+			
+			refresh(chess_board, paras)
+		except SystemExit:
+			break
+		except:
+			pass
 
 if __name__ == "__main__":
 		pygame.init()

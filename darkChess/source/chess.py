@@ -46,7 +46,6 @@ def RC_compare(n1, n2):
 	return BC_compare(n1, n2)
 
 def BC_compare(n1, n2):
-	print "BC_compare"
 	map2Num = {
 		'P' : 0,
 		'N' : 0,
@@ -61,7 +60,6 @@ def BC_compare(n1, n2):
 	return False
 
 def Other_compare(n1, n2):
-	print "other_compare"
 	map2Num = {
 		'P' : 1,
 		'C' : 2,
@@ -160,7 +158,7 @@ class Chess:
 				func = getattr(sys.modules[__name__], n1 + "_compare")
 				return func(n1, n2)
 			except:
-				print traceback.format_exc()
+				#print traceback.format_exc()
 				return Other_compare(n1, n2)
 		return False
 

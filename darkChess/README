@@ -1,2 +1,8 @@
+Execute:
+	"python chessgame.py" in source folder
+
+
+Reference:
 [1] pygame 入門到精通 
 http://simple-is-better.com/news/361
+
