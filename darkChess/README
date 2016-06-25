@@ -1,5 +1,6 @@
 Execute:
-	"python chessgame.py" in source folder
+	- cd source
+	- python chessgame.py
 
 
 Reference:
