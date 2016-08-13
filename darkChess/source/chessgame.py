@@ -5,6 +5,7 @@ from pygame.locals import *
 import chess
 import random
 import traceback
+from common import anfile
 
 EVENTMAP = {
 	QUIT : "equit",
@@ -206,19 +207,24 @@ def emousebtndown(paras):
 	x,y = pygame.mouse.get_pos()
 
 
+'''
+refresh and paras['bg'] should 整合進去chessBoard裡面.
+chessBoard應該要是一個 abstract class(template), 讓所有chess game可以繼承來使用.
+
+'''
+
 def refresh(chessBoard, paras):
 	screen = paras['screen']
 	backgroup = paras['bg']
-	screen.blit(backgroup, (0,0))
+	screen.blit(backgroup, (0,0)) # blitting is doing a complete copy of one set of pixels onto another.
 	chessBoard.show(screen)
 	pygame.display.update()
 	
-
 def main():
-	img_path = "../SHEET.gif"
+	cfg = anfile.read_dcfg("chess.cfg")	
 	screen = createScreen(521, 313, "Chinese Chess Game")
-	imgBg = imgLoad(img_path)
-	chess_board = ChessBoard(BOARDX, BOARDY)
+	imgBg = imgLoad(cfg['img_board'])
+	chess_board = ChessBoard(cfg['leftup_x'], cfg['leftup_y'])
 	chess_board.init()
 	while True:
 		try:
